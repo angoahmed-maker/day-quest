@@ -732,8 +732,8 @@
       <div class="hero-top">
         <div class="hero-copy">
           <div class="eyebrow">Day Quest OS</div>
-          <h1>Your Daily Operating System</h1>
-          <p>Run the full questline from wake to sleep, keep your timer honest, track 2UP actions, log spend, and push toward the $1M milestone with one clean command center.</p>
+          <h1>My Actual Day System</h1>
+          <p>Wake, work, 2UP windows, Chinese, switch-off, and sleep tracked the way the day really happens, without turning it into fake productivity language.</p>
         </div>
         <div class="stats-strip">
           <div class="mini-stat">
@@ -761,10 +761,10 @@
         <section class="card quest-panel">
           <div class="card-header">
             <div>
-              <div class="card-title">Main Quest</div>
-              <div class="card-subtitle">Current step, timer control, and day progression from wake to sleep.</div>
+              <div class="card-title">Current Step</div>
+              <div class="card-subtitle">What is happening now, what is next, and how the day is moving from wake through sleep.</div>
             </div>
-            <div class="status-pill" id="questStatusPill">Current Quest</div>
+            <div class="status-pill" id="questStatusPill">Live Now</div>
           </div>
 
           <div class="current-step">
@@ -775,8 +775,8 @@
             </div>
 
             <div class="quest-hint" id="stepProgressText">Step 1 of 1</div>
-            <div class="step-name" id="currentStepTitle">Loading quest...</div>
-            <div class="step-desc" id="currentStepDescription">Prepare your day system.</div>
+            <div class="step-name" id="currentStepTitle">Loading day...</div>
+            <div class="step-desc" id="currentStepDescription">Bringing your real routine online.</div>
 
             <div class="step-grid">
               <div class="detail-box">
@@ -813,7 +813,7 @@
 
             <div class="progress-wrap">
               <div class="progress-copy">
-                <span id="dayProgressLabel">0% through today's flow</span>
+                <span id="dayProgressLabel">0% through the day</span>
                 <span id="progressFractionLabel">0 / 0</span>
               </div>
               <div class="progress-bar">
@@ -826,8 +826,8 @@
         <section class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">Questline Timeline</div>
-              <div class="card-subtitle">Ordered steps for the day, with completed steps fading behind the current objective.</div>
+              <div class="card-title">Day Timeline</div>
+              <div class="card-subtitle">The actual recurring structure of your day, with the current step kept in view.</div>
             </div>
           </div>
           <div class="timeline" id="timeline"></div>
@@ -839,14 +839,14 @@
           <div class="card-header">
             <div>
               <div class="card-title">Day Rules</div>
-              <div class="card-subtitle">Automatic day-aware events and context for how today behaves.</div>
+              <div class="card-subtitle">Fixed parts of the week and how today changes the routine.</div>
             </div>
           </div>
           <div class="split-grid">
             <div class="metric-box">
               <div class="detail-label">Special Event</div>
               <div class="metric-value" id="specialEventLabel">Standard day</div>
-              <div class="metric-caption" id="specialEventNote">Normal quest flow active.</div>
+              <div class="metric-caption" id="specialEventNote">Regular real-life structure active.</div>
             </div>
             <div class="metric-box">
               <div class="detail-label">2UP Window</div>
@@ -860,7 +860,7 @@
           <div class="card-header">
             <div>
               <div class="card-title">2UP Tracker</div>
-              <div class="card-subtitle">Track checks and bets without friction.</div>
+              <div class="card-subtitle">Keep promo checks and bets visible without overcomplicating it.</div>
             </div>
           </div>
           <div class="compact-grid">
@@ -884,7 +884,7 @@
           <div class="card-header">
             <div>
               <div class="card-title">Spend Log</div>
-              <div class="card-subtitle">Capture every spend so the day stays honest.</div>
+              <div class="card-subtitle">Awareness only. Log what went out without turning it into budget pressure.</div>
             </div>
             <div class="status-pill" id="spentTodayLabel">$0.00</div>
           </div>
@@ -901,8 +901,8 @@
         <section class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">Net Worth Quest</div>
-              <div class="card-subtitle">Road to $1,000,000.</div>
+              <div class="card-title">Net Worth</div>
+              <div class="card-subtitle">Keep the long game visible.</div>
             </div>
           </div>
           <div class="form-grid">
@@ -922,7 +922,7 @@
           <div class="card-header">
             <div>
               <div class="card-title">System Controls</div>
-              <div class="card-subtitle">Use when you want a clean slate for the day.</div>
+              <div class="card-subtitle">Reset the day state when needed, without touching the longer-term trackers.</div>
             </div>
           </div>
           <div class="footer-actions">
@@ -940,67 +940,137 @@
 
     const baseSteps = [
       {
-        title: "Wake and Prime",
-        duration: 20,
+        title: "Wake",
+        duration: 10,
         phase: "Morning",
-        slot: "Wake up",
-        description: "Hydrate, wash up, get upright, and bring the system online before noise hits."
+        slot: "Start",
+        description: "Get up and get the day moving."
       },
       {
-        title: "Body Activation",
-        duration: 30,
+        title: "Water",
+        duration: 5,
         phase: "Morning",
         slot: "After wake",
-        description: "Movement block, stretch, light workout, or walk to get momentum early."
+        description: "Hydrate straight away before anything else drifts in."
       },
       {
-        title: "Plan and Setup",
+        title: "Shower",
+        duration: 15,
+        phase: "Morning",
+        slot: "Morning reset",
+        description: "Clean up and get properly switched on."
+      },
+      {
+        title: "Eat",
         duration: 20,
         phase: "Morning",
-        slot: "Before work",
-        description: "Review the day, set priorities, check context, and line up the first real win."
+        slot: "Before leaving",
+        description: "Get food in so the day is not running on fumes."
       },
       {
-        title: "Deep Work Sprint",
+        title: "2UP / promo check",
+        duration: 15,
+        phase: "Morning",
+        slot: "Morning scan",
+        description: "Quick early look at promos and windows before the rest of the day takes over."
+      },
+      {
+        title: "Gym",
+        duration: 60,
+        phase: "Morning",
+        slot: "Before work",
+        description: "Training block before going in."
+      },
+      {
+        title: "Go to work",
+        duration: 30,
+        phase: "Morning",
+        slot: "Commute",
+        description: "Leave and get to work."
+      },
+      {
+        title: "Dispatch Orders",
         duration: 120,
         phase: "Work",
-        slot: "Start of work",
-        description: "Focused output block for meaningful work without side quests or drift."
+        slot: "First work block",
+        description: "Get orders out properly and keep the workday moving."
       },
       {
-        title: "2UP Scan",
-        duration: 15,
-        phase: "Work",
-        slot: "Midday",
-        description: "Check current promo windows, verify opportunities, and log any actions."
-      },
-      {
-        title: "Work Reload",
+        title: "Ingest Returns",
         duration: 90,
         phase: "Work",
-        slot: "After midday",
-        description: "Second work block to keep the day productive and clean."
+        slot: "Middle work block",
+        description: "Handle returns and clear the pile instead of letting it hang around."
       },
       {
-        title: "Wind Down and Reset",
-        duration: 45,
+        title: "Finish work",
+        duration: 60,
+        phase: "Work",
+        slot: "Close out",
+        description: "Wrap the shift and leave work at work."
+      },
+      {
+        title: "Decompress",
+        duration: 30,
         phase: "Evening",
         slot: "After work",
-        description: "Transition out of work mode, eat, reset the room, and clear mental clutter."
+        description: "Come down from work before the evening starts properly."
       },
       {
-        title: "Evening Review",
+        title: "2UP main window",
         duration: 25,
         phase: "Evening",
-        slot: "Before bed",
-        description: "Log spend, review net worth, check 2UP totals, and lock in tomorrow's posture."
+        slot: "Main promo window",
+        description: "Main evening check and action window for promos."
       },
       {
-        title: "Sleep Ritual",
+        title: "Chinese",
+        duration: 45,
+        phase: "Evening",
+        slot: "Language block",
+        description: "Chinese study unless Wednesday tutor locks the hour."
+      },
+      {
+        title: "Dinner",
+        duration: 30,
+        phase: "Evening",
+        slot: "After Chinese",
+        description: "Eat and settle the evening properly."
+      },
+      {
+        title: "Daily focus block",
+        duration: 60,
+        phase: "Evening",
+        slot: "Night setup",
+        description: "One deliberate block for the thing that still matters today."
+      },
+      {
+        title: "Hobby",
+        duration: 45,
+        phase: "Night",
+        slot: "Personal time",
+        description: "Actual hobby time, separate from just switching off."
+      },
+      {
+        title: "Brain off",
+        duration: 45,
+        phase: "Night",
+        slot: "Controlled switch-off",
+        description: "Weed or Prime is fine here, no porn, and keep it capped so it stays controlled."
+      },
+      {
+        title: "Plan tomorrow",
+        duration: 15,
+        phase: "Night",
+        slot: "Before bed",
+        description: "Line up tomorrow so morning is not chaos."
+      },
+      {
+        title: "Sleep",
         duration: 30,
         phase: "Night",
         slot: "Bedtime",
-        description: "Screens down, low light, calm finish, and close the day with intention."
+        description: "Day ends here. Shut it down properly."
       }
     ];
 
@@ -1070,9 +1140,9 @@
         dayName: dayNames[dayIndex],
         promoType: promos[dayIndex],
         specialEventLabel: "Standard day",
-        specialEventNote: "Normal quest flow active.",
+        specialEventNote: "Regular real-life structure active.",
         windowLabel: "Default",
-        windowNote: "Regular check rhythm.",
+        windowNote: "Standard morning scan and main evening window.",
         extraSteps: []
       };
 
@@ -1081,33 +1151,33 @@
         info.specialEventLabel = "Chinese tutor";
         info.specialEventNote = "Fixed session from 6:00pm to 7:00pm.";
         info.extraSteps.push({
-          title: "Chinese Tutor Session",
+          title: "Chinese tutor",
           duration: 60,
           phase: "Evening",
           slot: "6:00pm to 7:00pm",
-          description: "Locked tutoring hour. Keep the calendar clear and show up sharp."
+          description: "Fixed Wednesday tutor session. This is locked in."
         });
       }
 
       if (dayIndex === 6) {
         info.promoType = "AFL / NRL";
-        info.windowLabel = "Extended";
-        info.windowNote = "Longer 2UP windows in both morning and evening.";
-        info.specialEventLabel = "Saturday grind";
-        info.specialEventNote = "Extra 2UP windows added into the day flow.";
+        info.windowLabel = "Heavy Saturday";
+        info.windowNote = "Saturday carries heavier 2UP windows than the standard day.";
+        info.specialEventLabel = "Saturday 2UP weight";
+        info.specialEventNote = "Extra promo attention is built into both morning and evening.";
         info.extraSteps.unshift({
-          title: "2UP Morning Window",
-          duration: 20,
+          title: "Saturday 2UP extra window",
+          duration: 25,
           phase: "Morning",
           slot: "Late morning",
-          description: "Extended Saturday morning promo scan and action window."
+          description: "Extra Saturday 2UP attention beyond the normal morning check."
         });
         info.extraSteps.push({
-          title: "2UP Evening Window",
-          duration: 20,
+          title: "Saturday 2UP late window",
+          duration: 30,
           phase: "Evening",
-          slot: "After dinner",
-          description: "Extended Saturday evening promo scan and tracking pass."
+          slot: "Late evening",
+          description: "Extra Saturday evening 2UP pass on top of the main window."
         });
       }
 
@@ -1120,11 +1190,11 @@
 
       info.extraSteps.forEach((extraStep) => {
         if (extraStep.slot === "6:00pm to 7:00pm") {
-          steps.splice(7, 0, extraStep);
+          steps.splice(12, 1, extraStep);
         } else if (extraStep.phase === "Morning") {
-          steps.splice(3, 0, extraStep);
+          steps.splice(6, 0, extraStep);
         } else {
-          steps.splice(8, 0, extraStep);
+          steps.splice(14, 0, extraStep);
         }
       });
 
@@ -1348,10 +1418,10 @@
       els.completedLabel.textContent = completed + " / " + steps.length;
       els.timerDisplay.textContent = formatTime(state.timerRemaining);
       els.timerSubState.textContent = state.timerRunning ? "Timer is active" : (state.timerRemaining === 0 ? "Timer reached zero" : "Timer paused");
-      els.dayProgressLabel.textContent = Math.round(percent) + "% through today's flow";
+      els.dayProgressLabel.textContent = Math.round(percent) + "% through the day";
       els.progressFractionLabel.textContent = completed + " / " + steps.length + " completed";
       els.dayProgressBar.style.width = percent + "%";
-      els.questStatusPill.textContent = isFinished ? "Day Complete" : "Current Quest";
+      els.questStatusPill.textContent = isFinished ? "Day Complete" : "Live Now";
       els.runStateLabel.textContent = state.timerRunning ? "Running" : "Paused";
 
       renderTimeline(steps);
