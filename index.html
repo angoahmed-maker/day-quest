@@ -1,139 +1,1478 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Day Quest OS</title>
-<style>
-:root{
-  --bg:#0f1115;
-  --panel:#171a21;
-  --panel2:#1d2330;
-  --accent:#7aa2ff;
-  --accent2:#59d38c;
-  --text:#ffffff;
-  --muted:#a7b0bd;
-  --border:#2a2f3a;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,system-ui;background:linear-gradient(180deg,#0f1115,#121826);color:var(--text)}
-.wrap{padding:16px;max-width:980px;margin:auto}
-.card{background:rgba(23,26,33,0.95);border:1px solid var(--border);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 10px 30px rgba(0,0,0,0.3)}
-h1{margin:0;font-size:28px}
-.sub{color:var(--muted);font-size:14px;margin-top:6px}
-.phase{font-size:13px;color:var(--muted);text-transform:uppercase}
-.next{font-size:26px;font-weight:700;margin-top:6px}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-.btn{padding:10px 14px;border:none;border-radius:12px;background:var(--accent);color:white;cursor:pointer;font-weight:600}
-.btn.secondary{background:var(--panel2);border:1px solid var(--border)}
-.item{padding:10px;border-radius:10px;margin-top:6px;background:var(--panel2)}
-.timer{font-size:22px;font-weight:700;color:var(--accent2);margin-top:6px}
-.highlight{margin-top:12px;padding:14px;border-radius:14px;background:rgba(122,162,255,0.08)}
-input{padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--panel2);color:white}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day Quest OS</title>
+  <style>
+    :root {
+      --bg-0: #07111f;
+      --bg-1: #0d1b2a;
+      --bg-2: #12263a;
+      --panel: rgba(10, 18, 32, 0.72);
+      --panel-strong: rgba(15, 27, 45, 0.92);
+      --border: rgba(159, 198, 255, 0.16);
+      --text: #eef4ff;
+      --muted: #90a7c2;
+      --soft: #5f7896;
+      --gold: #f7c96b;
+      --cyan: #6de6ff;
+      --emerald: #69f0ae;
+      --rose: #ff7f9f;
+      --violet: #a7a4ff;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --container: 1180px;
+      --font-display: "Avenir Next", "Segoe UI", sans-serif;
+      --font-body: "Inter", "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: var(--font-body);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(109, 230, 255, 0.14), transparent 30%),
+        radial-gradient(circle at top right, rgba(247, 201, 107, 0.12), transparent 28%),
+        radial-gradient(circle at bottom, rgba(167, 164, 255, 0.1), transparent 32%),
+        linear-gradient(160deg, var(--bg-0), var(--bg-1) 48%, #09111d 100%);
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      pointer-events: none;
+      filter: blur(40px);
+      opacity: 0.45;
+      z-index: 0;
+    }
+
+    body::before {
+      width: 260px;
+      height: 260px;
+      top: 8%;
+      left: -80px;
+      background: rgba(109, 230, 255, 0.22);
+    }
+
+    body::after {
+      width: 320px;
+      height: 320px;
+      right: -110px;
+      bottom: 5%;
+      background: rgba(247, 201, 107, 0.18);
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      width: min(100%, var(--container));
+      margin: 0 auto;
+      padding: 24px 16px 56px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      border-radius: calc(var(--radius-xl) + 6px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+        linear-gradient(140deg, rgba(109, 230, 255, 0.08), rgba(247, 201, 107, 0.05) 55%, rgba(167, 164, 255, 0.08));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -50% auto;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(109, 230, 255, 0.12), transparent 68%);
+      pointer-events: none;
+    }
+
+    .hero-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--gold);
+      font-size: 0.76rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p {
+      margin: 0;
+    }
+
+    .hero h1 {
+      margin-top: 12px;
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.6rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+    }
+
+    .hero-copy p {
+      margin-top: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 54ch;
+    }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      width: min(100%, 420px);
+    }
+
+    .mini-stat {
+      padding: 14px;
+      border-radius: var(--radius-md);
+      background: rgba(6, 13, 24, 0.48);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .mini-stat-label {
+      color: var(--soft);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .mini-stat-value {
+      margin-top: 8px;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.4fr 0.9fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .column {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .card {
+      padding: 22px;
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .card-subtitle {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    .status-pill,
+    .phase-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+
+    .quest-panel {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(145deg, rgba(14, 24, 40, 0.96), rgba(9, 16, 28, 0.92)),
+        radial-gradient(circle at top right, rgba(109, 230, 255, 0.08), transparent 34%);
+    }
+
+    .quest-panel::before {
+      content: "";
+      position: absolute;
+      inset: auto auto -120px -60px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(105, 240, 174, 0.09), transparent 72%);
+      pointer-events: none;
+    }
+
+    .quest-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .current-step {
+      display: grid;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-name {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 3vw, 2.8rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .step-desc {
+      color: var(--muted);
+      max-width: 58ch;
+      line-height: 1.6;
+    }
+
+    .step-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .detail-box {
+      padding: 14px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .detail-label {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--soft);
+    }
+
+    .detail-value {
+      margin-top: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .timer-panel {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 12px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .timer-readout {
+      display: grid;
+      gap: 8px;
+    }
+
+    .timer-value {
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      letter-spacing: -0.06em;
+      font-weight: 800;
+    }
+
+    .timer-state {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      transition: transform 140ms ease, opacity 140ms ease, box-shadow 140ms ease, background 140ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn {
+      min-height: 44px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(109, 230, 255, 0.95), rgba(84, 186, 255, 0.92));
+      color: #04111f;
+      font-weight: 800;
+    }
+
+    .btn-good {
+      background: linear-gradient(135deg, rgba(105, 240, 174, 0.95), rgba(78, 217, 157, 0.9));
+      color: #04150d;
+      font-weight: 800;
+    }
+
+    .btn-warn {
+      background: linear-gradient(135deg, rgba(247, 201, 107, 0.95), rgba(255, 154, 76, 0.9));
+      color: #1d1002;
+      font-weight: 800;
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .btn-danger {
+      background: rgba(255, 127, 159, 0.14);
+      color: #ffc7d4;
+      border: 1px solid rgba(255, 127, 159, 0.22);
+    }
+
+    .progress-wrap {
+      margin-top: 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .progress-copy {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .progress-bar {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--gold));
+      box-shadow: 0 0 24px rgba(109, 230, 255, 0.35);
+      transition: width 320ms ease;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.03);
+      transition: transform 180ms ease, border-color 180ms ease, opacity 180ms ease, background 180ms ease;
+    }
+
+    .timeline-item.current {
+      border-color: rgba(109, 230, 255, 0.42);
+      background: linear-gradient(145deg, rgba(109, 230, 255, 0.11), rgba(255, 255, 255, 0.05));
+      transform: translateY(-2px);
+    }
+
+    .timeline-item.completed {
+      opacity: 0.46;
+    }
+
+    .timeline-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .timeline-name {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .timeline-meta,
+    .transaction-note {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.9rem;
+    }
+
+    .timeline-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .compact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric-box {
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .metric-value {
+      margin-top: 10px;
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+    }
+
+    .metric-caption {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .input,
+    .input-row input {
+      width: 100%;
+      min-height: 46px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      outline: none;
+      transition: border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
+    }
+
+    .input::placeholder {
+      color: #7089a7;
+    }
+
+    .input:focus {
+      border-color: rgba(109, 230, 255, 0.4);
+      box-shadow: 0 0 0 4px rgba(109, 230, 255, 0.08);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr auto;
+      gap: 10px;
+    }
+
+    .transactions {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+      max-height: 300px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .transactions:empty::before {
+      content: "No spend logged yet today.";
+      color: var(--soft);
+      font-size: 0.95rem;
+      padding: 8px 2px;
+    }
+
+    .transaction-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .transaction-amount {
+      font-weight: 800;
+      color: #ffd08e;
+      white-space: nowrap;
+    }
+
+    .worth-callout {
+      margin-top: 14px;
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    .worth-big {
+      margin-top: 8px;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+    }
+
+    .footer-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .small-note {
+      color: var(--soft);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .quest-hint {
+      color: var(--gold);
+      font-size: 0.84rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeRise {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card,
+    .hero,
+    .timeline-item,
+    .transaction-item {
+      animation: fadeRise 420ms ease both;
+    }
+
+    @media (max-width: 1024px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-strip,
+      .step-grid,
+      .split-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .shell {
+        padding: 16px 12px 40px;
+      }
+
+      .hero,
+      .card {
+        padding: 18px;
+        border-radius: 22px;
+      }
+
+      .stats-strip,
+      .step-grid,
+      .split-grid,
+      .compact-grid,
+      .input-row {
+        grid-template-columns: 1fr;
+      }
+
+      .timer-panel,
+      .card-header,
+      .hero-top,
+      .timeline-top,
+      .footer-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .button-row {
+        width: 100%;
+      }
+
+      .button-row .btn,
+      .input-row .btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="wrap">
+  <div class="shell">
+    <section class="hero">
+      <div class="hero-top">
+        <div class="hero-copy">
+          <div class="eyebrow">Day Quest OS</div>
+          <h1>Your Daily Operating System</h1>
+          <p>Run the full questline from wake to sleep, keep your timer honest, track 2UP actions, log spend, and push toward the $1M milestone with one clean command center.</p>
+        </div>
+        <div class="stats-strip">
+          <div class="mini-stat">
+            <div class="mini-stat-label">Today</div>
+            <div class="mini-stat-value" id="currentDayLabel">-</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-label">Promo</div>
+            <div class="mini-stat-value" id="promoTypeLabel">-</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-label">Streak</div>
+            <div class="mini-stat-value" id="streakLabel">0</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-label">Mode</div>
+            <div class="mini-stat-value" id="runStateLabel">Paused</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div class="card">
-  <div class="phase" id="phase"></div>
-  <div class="next" id="next"></div>
+    <div class="layout">
+      <div class="column">
+        <section class="card quest-panel">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Main Quest</div>
+              <div class="card-subtitle">Current step, timer control, and day progression from wake to sleep.</div>
+            </div>
+            <div class="status-pill" id="questStatusPill">Current Quest</div>
+          </div>
 
-  <div class="highlight">
-    <div class="timer" id="timerDisplay"></div>
-    <div class="row">
-      <button class="btn" onclick="beginStep()">Begin</button>
-      <button class="btn secondary" onclick="complete()">Done</button>
+          <div class="current-step">
+            <div class="quest-meta">
+              <span class="phase-pill" id="currentPhase">Phase</span>
+              <span class="phase-pill" id="currentSlot">Slot</span>
+              <span class="phase-pill" id="nextStepPill">Next: -</span>
+            </div>
+
+            <div class="quest-hint" id="stepProgressText">Step 1 of 1</div>
+            <div class="step-name" id="currentStepTitle">Loading quest...</div>
+            <div class="step-desc" id="currentStepDescription">Prepare your day system.</div>
+
+            <div class="step-grid">
+              <div class="detail-box">
+                <div class="detail-label">Duration</div>
+                <div class="detail-value" id="currentStepDuration">0 min</div>
+              </div>
+              <div class="detail-box">
+                <div class="detail-label">Remaining</div>
+                <div class="detail-value" id="remainingLabel">00:00</div>
+              </div>
+              <div class="detail-box">
+                <div class="detail-label">Status</div>
+                <div class="detail-value" id="timerStateLabel">Paused</div>
+              </div>
+              <div class="detail-box">
+                <div class="detail-label">Completed</div>
+                <div class="detail-value" id="completedLabel">0</div>
+              </div>
+            </div>
+
+            <div class="timer-panel">
+              <div class="timer-readout">
+                <div class="detail-label">Countdown</div>
+                <div class="timer-value" id="timerDisplay">00:00</div>
+                <div class="timer-state" id="timerSubState">Ready to begin</div>
+              </div>
+              <div class="button-row">
+                <button class="btn btn-primary" id="beginBtn">Begin</button>
+                <button class="btn" id="pauseBtn">Pause</button>
+                <button class="btn btn-warn" id="skipBtn">Skip</button>
+                <button class="btn btn-good" id="doneBtn">Done</button>
+              </div>
+            </div>
+
+            <div class="progress-wrap">
+              <div class="progress-copy">
+                <span id="dayProgressLabel">0% through today's flow</span>
+                <span id="progressFractionLabel">0 / 0</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="dayProgressBar"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Questline Timeline</div>
+              <div class="card-subtitle">Ordered steps for the day, with completed steps fading behind the current objective.</div>
+            </div>
+          </div>
+          <div class="timeline" id="timeline"></div>
+        </section>
+      </div>
+
+      <div class="column">
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Day Rules</div>
+              <div class="card-subtitle">Automatic day-aware events and context for how today behaves.</div>
+            </div>
+          </div>
+          <div class="split-grid">
+            <div class="metric-box">
+              <div class="detail-label">Special Event</div>
+              <div class="metric-value" id="specialEventLabel">Standard day</div>
+              <div class="metric-caption" id="specialEventNote">Normal quest flow active.</div>
+            </div>
+            <div class="metric-box">
+              <div class="detail-label">2UP Window</div>
+              <div class="metric-value" id="windowLabel">Default</div>
+              <div class="metric-caption" id="windowNote">Regular check rhythm.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">2UP Tracker</div>
+              <div class="card-subtitle">Track checks and bets without friction.</div>
+            </div>
+          </div>
+          <div class="compact-grid">
+            <div class="metric-box">
+              <div class="detail-label">Windows Checked</div>
+              <div class="metric-value" id="checksCount">0</div>
+            </div>
+            <div class="metric-box">
+              <div class="detail-label">Bets Placed</div>
+              <div class="metric-value" id="betsCount">0</div>
+            </div>
+          </div>
+          <div class="button-row" style="margin-top: 16px;">
+            <button class="btn btn-primary" id="checkedBtn">Checked window</button>
+            <button class="btn btn-good" id="betBtn">Placed bet</button>
+            <button class="btn btn-danger" id="reset2upBtn">Reset</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Spend Tracker</div>
+              <div class="card-subtitle">Manual spend logging only. No budgets, no limits, just clarity.</div>
+            </div>
+          </div>
+          <div class="metric-box">
+            <div class="detail-label">Spent Today</div>
+            <div class="metric-value" id="spentTodayLabel">$0.00</div>
+          </div>
+          <div class="form-grid" style="margin-top: 16px;">
+            <div class="input-row">
+              <input class="input" id="amountInput" type="number" min="0" step="0.01" placeholder="Amount" />
+              <input class="input" id="noteInput" type="text" placeholder="Note" />
+              <button class="btn btn-primary" id="addSpendBtn">Add</button>
+            </div>
+          </div>
+          <div class="transactions" id="transactionsList"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Net Worth Quest</div>
+              <div class="card-subtitle">Road to $1,000,000.</div>
+            </div>
+          </div>
+          <div class="form-grid">
+            <input class="input" id="netWorthInput" type="number" step="0.01" placeholder="Enter current net worth" />
+            <button class="btn btn-primary" id="saveNetWorthBtn">Save net worth</button>
+          </div>
+          <div class="worth-callout">$1,000,000 target progress</div>
+          <div class="worth-big" id="netWorthSummary">$0 / $1,000,000 (0.00%)</div>
+          <div class="progress-wrap">
+            <div class="progress-bar">
+              <div class="progress-fill" id="netWorthBar"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">System Controls</div>
+              <div class="card-subtitle">Use when you want a clean slate for the day.</div>
+            </div>
+          </div>
+          <div class="footer-actions">
+            <div class="small-note" id="resetNote">Daily state auto-resets when a new date begins.</div>
+            <button class="btn btn-ghost" id="dailyResetBtn">Reset today</button>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="card">
-  <h3>2UP Tracking</h3>
-  <button class="btn" onclick="logCheck()">Checked Window</button>
-  <button class="btn secondary" onclick="logBet()">Placed Bet</button>
-  <div id="betStats" class="highlight"></div>
-</div>
+  <script>
+    const STORAGE_KEY = "dayQuestOSState";
+    const TARGET_NET_WORTH = 1000000;
 
-<div class="card">
-  <h3>Spend Tracker</h3>
-  <div class="row">
-    <input id="amount" type="number" placeholder="Amount">
-    <input id="note" placeholder="Note">
-    <button class="btn" onclick="addSpend()">Add</button>
-  </div>
-  <div id="summary" class="highlight"></div>
-  <div id="spendList"></div>
-</div>
+    const baseSteps = [
+      {
+        title: "Wake and Prime",
+        duration: 20,
+        phase: "Morning",
+        slot: "Wake up",
+        description: "Hydrate, wash up, get upright, and bring the system online before noise hits."
+      },
+      {
+        title: "Body Activation",
+        duration: 30,
+        phase: "Morning",
+        slot: "After wake",
+        description: "Movement block, stretch, light workout, or walk to get momentum early."
+      },
+      {
+        title: "Plan and Setup",
+        duration: 20,
+        phase: "Morning",
+        slot: "Before work",
+        description: "Review the day, set priorities, check context, and line up the first real win."
+      },
+      {
+        title: "Deep Work Sprint",
+        duration: 120,
+        phase: "Work",
+        slot: "Start of work",
+        description: "Focused output block for meaningful work without side quests or drift."
+      },
+      {
+        title: "2UP Scan",
+        duration: 15,
+        phase: "Work",
+        slot: "Midday",
+        description: "Check current promo windows, verify opportunities, and log any actions."
+      },
+      {
+        title: "Work Reload",
+        duration: 90,
+        phase: "Work",
+        slot: "After midday",
+        description: "Second work block to keep the day productive and clean."
+      },
+      {
+        title: "Wind Down and Reset",
+        duration: 45,
+        phase: "Evening",
+        slot: "After work",
+        description: "Transition out of work mode, eat, reset the room, and clear mental clutter."
+      },
+      {
+        title: "Evening Review",
+        duration: 25,
+        phase: "Evening",
+        slot: "Before bed",
+        description: "Log spend, review net worth, check 2UP totals, and lock in tomorrow's posture."
+      },
+      {
+        title: "Sleep Ritual",
+        duration: 30,
+        phase: "Night",
+        slot: "Bedtime",
+        description: "Screens down, low light, calm finish, and close the day with intention."
+      }
+    ];
 
-<div class="card">
-  <h3>Road to $1M</h3>
-  <div class="row">
-    <input id="networth" type="number" placeholder="Current Net Worth">
-    <button class="btn" onclick="setNetWorth()">Update</button>
-  </div>
-  <div id="millionStats" class="highlight"></div>
-</div>
+    const els = {
+      currentDayLabel: document.getElementById("currentDayLabel"),
+      promoTypeLabel: document.getElementById("promoTypeLabel"),
+      streakLabel: document.getElementById("streakLabel"),
+      runStateLabel: document.getElementById("runStateLabel"),
+      currentPhase: document.getElementById("currentPhase"),
+      currentSlot: document.getElementById("currentSlot"),
+      nextStepPill: document.getElementById("nextStepPill"),
+      stepProgressText: document.getElementById("stepProgressText"),
+      currentStepTitle: document.getElementById("currentStepTitle"),
+      currentStepDescription: document.getElementById("currentStepDescription"),
+      currentStepDuration: document.getElementById("currentStepDuration"),
+      remainingLabel: document.getElementById("remainingLabel"),
+      timerStateLabel: document.getElementById("timerStateLabel"),
+      completedLabel: document.getElementById("completedLabel"),
+      timerDisplay: document.getElementById("timerDisplay"),
+      timerSubState: document.getElementById("timerSubState"),
+      dayProgressLabel: document.getElementById("dayProgressLabel"),
+      progressFractionLabel: document.getElementById("progressFractionLabel"),
+      dayProgressBar: document.getElementById("dayProgressBar"),
+      timeline: document.getElementById("timeline"),
+      questStatusPill: document.getElementById("questStatusPill"),
+      specialEventLabel: document.getElementById("specialEventLabel"),
+      specialEventNote: document.getElementById("specialEventNote"),
+      windowLabel: document.getElementById("windowLabel"),
+      windowNote: document.getElementById("windowNote"),
+      checksCount: document.getElementById("checksCount"),
+      betsCount: document.getElementById("betsCount"),
+      spentTodayLabel: document.getElementById("spentTodayLabel"),
+      transactionsList: document.getElementById("transactionsList"),
+      amountInput: document.getElementById("amountInput"),
+      noteInput: document.getElementById("noteInput"),
+      netWorthInput: document.getElementById("netWorthInput"),
+      netWorthSummary: document.getElementById("netWorthSummary"),
+      netWorthBar: document.getElementById("netWorthBar"),
+      resetNote: document.getElementById("resetNote"),
+      beginBtn: document.getElementById("beginBtn"),
+      pauseBtn: document.getElementById("pauseBtn"),
+      skipBtn: document.getElementById("skipBtn"),
+      doneBtn: document.getElementById("doneBtn"),
+      checkedBtn: document.getElementById("checkedBtn"),
+      betBtn: document.getElementById("betBtn"),
+      reset2upBtn: document.getElementById("reset2upBtn"),
+      addSpendBtn: document.getElementById("addSpendBtn"),
+      saveNetWorthBtn: document.getElementById("saveNetWorthBtn"),
+      dailyResetBtn: document.getElementById("dailyResetBtn")
+    };
 
-</div>
+    function getTodayKey() {
+      return new Date().toISOString().slice(0, 10);
+    }
 
-<script>
-let state = JSON.parse(localStorage.getItem('dq')||"{}");
-if(!state.index) state.index=0;
-if(!state.spending) state.spending=[];
-if(!state.checks) state.checks=0;
-if(!state.bets) state.bets=0;
-if(!state.networth) state.networth=16000;
+    function getDayInfo(date = new Date()) {
+      const dayIndex = date.getDay();
+      const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const promos = ["NRL", "Champions", "AFL", "Champions", "NRL", "AFL", "Weekend Multi"];
 
-const flow=[
-"Wake","Water","Shower","Eat","2UP Check","Gym","Work","Chinese","Dinner","Focus","Hobby","Brain Off","Plan","Sleep"
-];
+      const info = {
+        dayName: dayNames[dayIndex],
+        promoType: promos[dayIndex],
+        specialEventLabel: "Standard day",
+        specialEventNote: "Normal quest flow active.",
+        windowLabel: "Default",
+        windowNote: "Regular check rhythm.",
+        extraSteps: []
+      };
 
-function render(){
-  const target = 1000000;
-  const progress = (state.networth/target)*100;
+      if (dayIndex === 3) {
+        info.promoType = "Champions";
+        info.specialEventLabel = "Chinese tutor";
+        info.specialEventNote = "Fixed session from 6:00pm to 7:00pm.";
+        info.extraSteps.push({
+          title: "Chinese Tutor Session",
+          duration: 60,
+          phase: "Evening",
+          slot: "6:00pm to 7:00pm",
+          description: "Locked tutoring hour. Keep the calendar clear and show up sharp."
+        });
+      }
 
-  document.getElementById('next').innerText=flow[state.index]||'Done';
-  document.getElementById('phase').innerText=state.index<5?'Morning':state.index<9?'Work':'Night';
-  document.getElementById('betStats').innerText=`Checks: ${state.checks} | Bets: ${state.bets}`;
-  let total = 0;
-  let spendItems = '';
+      if (dayIndex === 6) {
+        info.promoType = "AFL / NRL";
+        info.windowLabel = "Extended";
+        info.windowNote = "Longer 2UP windows in both morning and evening.";
+        info.specialEventLabel = "Saturday grind";
+        info.specialEventNote = "Extra 2UP windows added into the day flow.";
+        info.extraSteps.unshift({
+          title: "2UP Morning Window",
+          duration: 20,
+          phase: "Morning",
+          slot: "Late morning",
+          description: "Extended Saturday morning promo scan and action window."
+        });
+        info.extraSteps.push({
+          title: "2UP Evening Window",
+          duration: 20,
+          phase: "Evening",
+          slot: "After dinner",
+          description: "Extended Saturday evening promo scan and tracking pass."
+        });
+      }
 
-  state.spending.forEach(s => {
-    total += s.amount;
-    spendItems += `<div class="item">$${s.amount} — ${s.note || 'No note'}</div>`;
-  });
+      return info;
+    }
 
-document.getElementById('summary').innerText = `Spent today: $${total}`;
-document.getElementById('spendList').innerHTML = spendItems;
-  document.getElementById('millionStats').innerText=`$${state.networth.toLocaleString()} / $1,000,000 (${progress.toFixed(2)}%)`;
-  localStorage.setItem('dq',JSON.stringify(state));
-}
+    function buildSteps() {
+      const info = getDayInfo();
+      const steps = [...baseSteps];
 
-function beginStep(){document.getElementById('timerDisplay').innerText='Running...'}
-function complete(){state.index++;render()}
-function logCheck(){state.checks++;render()}
-function logBet(){state.bets++;render()}
-function setNetWorth(){
-  const val=Number(document.getElementById('networth').value);
-  if(val) state.networth=val;
-  render();
-}
+      info.extraSteps.forEach((extraStep) => {
+        if (extraStep.slot === "6:00pm to 7:00pm") {
+          steps.splice(7, 0, extraStep);
+        } else if (extraStep.phase === "Morning") {
+          steps.splice(3, 0, extraStep);
+        } else {
+          steps.splice(8, 0, extraStep);
+        }
+      });
 
-function addSpend(){
-  const amt = Number(document.getElementById('amount').value);
-  const note = document.getElementById('note').value;
-  if(!amt) return;
+      return steps;
+    }
 
-  state.spending.push({amount:amt,note});
+    function formatMoney(value) {
+      return new Intl.NumberFormat("en-AU", {
+        style: "currency",
+        currency: "AUD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(Number(value) || 0);
+    }
 
-  document.getElementById('amount').value = '';
-  document.getElementById('note').value = '';
+    function formatCompactMoney(value) {
+      return new Intl.NumberFormat("en-AU", {
+        style: "currency",
+        currency: "AUD",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(Number(value) || 0);
+    }
 
-  render();
-}
+    function formatTime(totalSeconds) {
+      const safe = Math.max(0, Math.floor(totalSeconds));
+      const minutes = String(Math.floor(safe / 60)).padStart(2, "0");
+      const seconds = String(safe % 60).padStart(2, "0");
+      return minutes + ":" + seconds;
+    }
 
-render();
-</script>
+    function createFreshState(preserved = {}) {
+      const steps = buildSteps();
+      return {
+        dateKey: getTodayKey(),
+        streak: preserved.streak || 0,
+        lastCompletedDate: preserved.lastCompletedDate || null,
+        stepIndex: 0,
+        timerRemaining: steps[0].duration * 60,
+        timerRunning: false,
+        lastTickAt: null,
+        twoUp: { checks: 0, bets: 0 },
+        spending: [],
+        netWorth: preserved.netWorth || 0
+      };
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      let parsed = null;
+
+      if (saved) {
+        try {
+          parsed = JSON.parse(saved);
+        } catch (error) {
+          parsed = null;
+        }
+      }
+
+      const todayKey = getTodayKey();
+
+      if (!parsed) {
+        return createFreshState();
+      }
+
+      if (parsed.dateKey !== todayKey) {
+        return createFreshState({
+          streak: parsed.streak || 0,
+          lastCompletedDate: parsed.lastCompletedDate || null,
+          netWorth: parsed.netWorth || 0
+        });
+      }
+
+      const state = {
+        ...createFreshState({
+          streak: parsed.streak || 0,
+          lastCompletedDate: parsed.lastCompletedDate || null,
+          netWorth: parsed.netWorth || 0
+        }),
+        ...parsed
+      };
+
+      const steps = buildSteps();
+      const clampedIndex = Math.min(Math.max(state.stepIndex || 0, 0), steps.length - 1);
+      state.stepIndex = clampedIndex;
+
+      if (!Number.isFinite(state.timerRemaining) || state.timerRemaining < 0) {
+        state.timerRemaining = steps[clampedIndex].duration * 60;
+      }
+
+      return state;
+    }
+
+    const state = loadState();
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function syncTimerWithClock() {
+      if (!state.timerRunning || !state.lastTickAt) return;
+      const now = Date.now();
+      const elapsed = Math.floor((now - state.lastTickAt) / 1000);
+      if (elapsed <= 0) return;
+      state.timerRemaining = Math.max(0, state.timerRemaining - elapsed);
+      state.lastTickAt = now;
+      if (state.timerRemaining === 0) {
+        state.timerRunning = false;
+      }
+      saveState();
+    }
+
+    function getSteps() {
+      return buildSteps();
+    }
+
+    function getCurrentStep() {
+      const steps = getSteps();
+      return steps[Math.min(state.stepIndex, steps.length - 1)];
+    }
+
+    function resetTimerForCurrentStep() {
+      const step = getCurrentStep();
+      state.timerRemaining = step.duration * 60;
+      state.timerRunning = false;
+      state.lastTickAt = null;
+    }
+
+    function maybeUpdateStreak() {
+      const today = getTodayKey();
+      if (state.lastCompletedDate === today) return;
+
+      if (state.lastCompletedDate) {
+        const last = new Date(state.lastCompletedDate + "T00:00:00");
+        const current = new Date(today + "T00:00:00");
+        const diffDays = Math.round((current - last) / 86400000);
+        state.streak = diffDays === 1 ? state.streak + 1 : 1;
+      } else {
+        state.streak = 1;
+      }
+
+      state.lastCompletedDate = today;
+    }
+
+    function moveToStep(nextIndex) {
+      const steps = getSteps();
+      const capped = Math.min(nextIndex, steps.length - 1);
+      const finishedAll = nextIndex >= steps.length;
+
+      if (finishedAll) {
+        state.stepIndex = steps.length - 1;
+        maybeUpdateStreak();
+        state.timerRemaining = 0;
+        state.timerRunning = false;
+        state.lastTickAt = null;
+      } else {
+        state.stepIndex = capped;
+        resetTimerForCurrentStep();
+      }
+
+      saveState();
+      render();
+    }
+
+    function renderQuest() {
+      syncTimerWithClock();
+      const steps = getSteps();
+      const current = getCurrentStep();
+      const isFinished = state.stepIndex >= steps.length - 1 && state.timerRemaining === 0 && !state.timerRunning;
+      const next = steps[state.stepIndex + 1];
+      const completed = state.stepIndex;
+      const percent = steps.length ? Math.min(100, (completed / steps.length) * 100) : 0;
+
+      els.currentPhase.textContent = current.phase;
+      els.currentSlot.textContent = current.slot;
+      els.nextStepPill.textContent = next ? "Next: " + next.title : "Final step";
+      els.stepProgressText.textContent = "Step " + (state.stepIndex + 1) + " of " + steps.length;
+      els.currentStepTitle.textContent = current.title;
+      els.currentStepDescription.textContent = current.description;
+      els.currentStepDuration.textContent = current.duration + " min";
+      els.remainingLabel.textContent = formatTime(state.timerRemaining);
+      els.timerStateLabel.textContent = state.timerRunning ? "Running" : (state.timerRemaining === 0 ? "Complete" : "Paused");
+      els.completedLabel.textContent = completed + " / " + steps.length;
+      els.timerDisplay.textContent = formatTime(state.timerRemaining);
+      els.timerSubState.textContent = state.timerRunning ? "Timer is active" : (state.timerRemaining === 0 ? "Timer reached zero" : "Timer paused");
+      els.dayProgressLabel.textContent = Math.round(percent) + "% through today's flow";
+      els.progressFractionLabel.textContent = completed + " / " + steps.length + " completed";
+      els.dayProgressBar.style.width = percent + "%";
+      els.questStatusPill.textContent = isFinished ? "Day Complete" : "Current Quest";
+      els.runStateLabel.textContent = state.timerRunning ? "Running" : "Paused";
+
+      els.timeline.innerHTML = "";
+      steps.forEach((step, index) => {
+        const item = document.createElement("div");
+        item.className = "timeline-item";
+        if (index < state.stepIndex) item.classList.add("completed");
+        if (index === state.stepIndex) item.classList.add("current");
+
+        item.innerHTML = `
+          <div class="timeline-top">
+            <div>
+              <div class="timeline-name">${step.title}</div>
+              <div class="timeline-meta">${step.description}</div>
+            </div>
+            <div class="badge">${step.duration} min</div>
+          </div>
+          <div class="timeline-badges">
+            <span class="badge">${step.phase}</span>
+            <span class="badge">${step.slot}</span>
+            <span class="badge">${index < state.stepIndex ? "Completed" : index === state.stepIndex ? "Current" : "Upcoming"}</span>
+          </div>
+        `;
+        els.timeline.appendChild(item);
+      });
+    }
+
+    function renderDayInfo() {
+      const info = getDayInfo();
+      els.currentDayLabel.textContent = info.dayName;
+      els.promoTypeLabel.textContent = info.promoType;
+      els.specialEventLabel.textContent = info.specialEventLabel;
+      els.specialEventNote.textContent = info.specialEventNote;
+      els.windowLabel.textContent = info.windowLabel;
+      els.windowNote.textContent = info.windowNote;
+      els.streakLabel.textContent = state.streak || 0;
+      els.resetNote.textContent = "Daily state auto-resets when a new date begins (" + state.dateKey + ").";
+    }
+
+    function renderTwoUp() {
+      els.checksCount.textContent = state.twoUp.checks;
+      els.betsCount.textContent = state.twoUp.bets;
+    }
+
+    function renderSpending() {
+      const total = state.spending.reduce((sum, item) => sum + item.amount, 0);
+      els.spentTodayLabel.textContent = formatMoney(total);
+      els.transactionsList.innerHTML = "";
+
+      state.spending
+        .slice()
+        .reverse()
+        .forEach((item) => {
+          const row = document.createElement("div");
+          row.className = "transaction-item";
+          row.innerHTML = `
+            <div>
+              <div>${item.note || "No note"}</div>
+              <div class="transaction-note">${new Date(item.timestamp).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</div>
+            </div>
+            <div class="transaction-amount">${formatMoney(item.amount)}</div>
+          `;
+          els.transactionsList.appendChild(row);
+        });
+    }
+
+    function renderNetWorth() {
+      const value = Number(state.netWorth) || 0;
+      const percent = Math.max(0, Math.min(100, (value / TARGET_NET_WORTH) * 100));
+      els.netWorthInput.value = value ? String(value) : "";
+      els.netWorthSummary.textContent = formatCompactMoney(value) + " / " + formatCompactMoney(TARGET_NET_WORTH) + " (" + percent.toFixed(2) + "%)";
+      els.netWorthBar.style.width = percent + "%";
+    }
+
+    function render() {
+      renderDayInfo();
+      renderQuest();
+      renderTwoUp();
+      renderSpending();
+      renderNetWorth();
+    }
+
+    els.beginBtn.addEventListener("click", () => {
+      syncTimerWithClock();
+      if (state.timerRemaining === 0) {
+        resetTimerForCurrentStep();
+      }
+      state.timerRunning = true;
+      state.lastTickAt = Date.now();
+      saveState();
+      render();
+    });
+
+    els.pauseBtn.addEventListener("click", () => {
+      syncTimerWithClock();
+      state.timerRunning = false;
+      state.lastTickAt = null;
+      saveState();
+      render();
+    });
+
+    els.skipBtn.addEventListener("click", () => {
+      moveToStep(state.stepIndex + 1);
+    });
+
+    els.doneBtn.addEventListener("click", () => {
+      moveToStep(state.stepIndex + 1);
+    });
+
+    els.checkedBtn.addEventListener("click", () => {
+      state.twoUp.checks += 1;
+      saveState();
+      renderTwoUp();
+    });
+
+    els.betBtn.addEventListener("click", () => {
+      state.twoUp.bets += 1;
+      saveState();
+      renderTwoUp();
+    });
+
+    els.reset2upBtn.addEventListener("click", () => {
+      state.twoUp = { checks: 0, bets: 0 };
+      saveState();
+      renderTwoUp();
+    });
+
+    function addSpend() {
+      const amount = parseFloat(els.amountInput.value);
+      const note = els.noteInput.value.trim();
+      if (!Number.isFinite(amount) || amount <= 0) return;
+
+      state.spending.push({
+        amount,
+        note,
+        timestamp: new Date().toISOString()
+      });
+
+      els.amountInput.value = "";
+      els.noteInput.value = "";
+      saveState();
+      renderSpending();
+    }
+
+    els.addSpendBtn.addEventListener("click", addSpend);
+    els.noteInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") addSpend();
+    });
+    els.amountInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") addSpend();
+    });
+
+    els.saveNetWorthBtn.addEventListener("click", () => {
+      const value = parseFloat(els.netWorthInput.value);
+      state.netWorth = Number.isFinite(value) ? value : 0;
+      saveState();
+      renderNetWorth();
+    });
+
+    els.netWorthInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        els.saveNetWorthBtn.click();
+      }
+    });
+
+    els.dailyResetBtn.addEventListener("click", () => {
+      const fresh = createFreshState({
+        streak: state.streak,
+        lastCompletedDate: state.lastCompletedDate,
+        netWorth: state.netWorth
+      });
+      Object.assign(state, fresh);
+      saveState();
+      render();
+    });
+
+    setInterval(() => {
+      const currentDateKey = getTodayKey();
+      if (state.dateKey !== currentDateKey) {
+        Object.assign(state, createFreshState({
+          streak: state.streak,
+          lastCompletedDate: state.lastCompletedDate,
+          netWorth: state.netWorth
+        }));
+        saveState();
+      }
+      renderQuest();
+    }, 1000);
+
+    render();
+  </script>
 </body>
 </html>
