@@ -63,6 +63,7 @@ input{padding:10px;border-radius:10px;border:1px solid var(--border);background:
     <button class="btn" onclick="addSpend()">Add</button>
   </div>
   <div id="summary" class="highlight"></div>
+  <div id="spendList"></div>
 </div>
 
 <div class="card">
@@ -95,9 +96,16 @@ function render(){
   document.getElementById('next').innerText=flow[state.index]||'Done';
   document.getElementById('phase').innerText=state.index<5?'Morning':state.index<9?'Work':'Night';
   document.getElementById('betStats').innerText=`Checks: ${state.checks} | Bets: ${state.bets}`;
-  let total=0;
-  state.spending.forEach(s=>total+=s.amount);
-  document.getElementById('summary').innerText=`Spent $${total}`;
+  let total = 0;
+  let spendItems = '';
+
+  state.spending.forEach(s => {
+    total += s.amount;
+    spendItems += `<div class="item">$${s.amount} — ${s.note || 'No note'}</div>`;
+  });
+
+document.getElementById('summary').innerText = `Spent today: $${total}`;
+document.getElementById('spendList').innerHTML = spendItems;
   document.getElementById('millionStats').innerText=`$${state.networth.toLocaleString()} / $1,000,000 (${progress.toFixed(2)}%)`;
   localStorage.setItem('dq',JSON.stringify(state));
 }
@@ -113,10 +121,15 @@ function setNetWorth(){
 }
 
 function addSpend(){
-  const amt=Number(document.getElementById('amount').value);
-  const note=document.getElementById('note').value;
+  const amt = Number(document.getElementById('amount').value);
+  const note = document.getElementById('note').value;
   if(!amt) return;
+
   state.spending.push({amount:amt,note});
+
+  document.getElementById('amount').value = '';
+  document.getElementById('note').value = '';
+
   render();
 }
 
